@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -51,10 +51,11 @@ def books():
         return(str(Exception))
 
 
-@app.route('/books/<id>')
+@app.route('/books/<id>/')
 def book_info(id):
+    print(request)
     try:
-        book = BooksModel.query.filter_by(id=id)
+        book = BooksModel.query.get(id)
         return jsonify(book.serialize())
     except:
         return(str(Exception))
